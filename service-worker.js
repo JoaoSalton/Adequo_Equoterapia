@@ -4,7 +4,7 @@ const CACHE_NAME = 'meu-cache-v1';
 const URLS_TO_CACHE = [
     '/',                  // Página principal
     '/index.html',        // HTML
-    '/style.css',         // CSS
+    '/styles.css',         // CSS
     '/script.js',         // Seu JavaScript principal
     '/area.jpg',          // Imagem de mapa PNG
     '/cenoura.png',       // Ícone de waypoint
