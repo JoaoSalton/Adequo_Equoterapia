@@ -1,8 +1,11 @@
-// Verifica se o navegador suporta Service Workers e registra o service-worker.js
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => console.log('Service Worker registrado com sucesso:', registration))
-        .catch(error => console.log('Falha ao registrar Service Worker:', error));
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(registration => {
+      console.log('Service Worker registrado com sucesso:', registration);
+    })
+    .catch(error => {
+      console.error('Falha ao registrar Service Worker:', error);
+    });
 }
 // Cria o botão
 const startButton = document.createElement("button");
