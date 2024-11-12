@@ -1,0 +1,94 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    flex-grow: 1;
+    width: 100vw; /* Largura total da tela */
+    height: 100vh; /* Altura total da tela */
+    position: absolute; /* Para posicionamento absoluto */
+    top: 0; /* Alinha o mapa ao topo */
+    left: 0; /* Alinha o mapa à esquerda */
+    z-index: 1; /* Garante que o mapa fique acima de outros elementos */
+}
+
+.waypoint-count-text {
+    position: absolute; /* Para posicionamento absoluto */
+    bottom: 10px; /* Distância do fundo */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Compensa a largura do elemento */
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 5px; /* Preenchimento */
+    font-size: 14px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    z-index: 2; /* Garante que o texto fique acima do mapa */
+}
+
+/* Estilo do balão de pensamento */
+#waypointCounter {
+    transform: translate(-50%, -100%);
+}
+
+/* Estilos personalizados para o popup */
+.leaflet-popup-content-wrapper {
+    position: relative;
+    top: -20px; /* Ajuste a distância do topo conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px; /* Tamanho da fonte menor */
+    line-height: 1.2; /* Altura de linha ajustada */
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo transparente */
+    border-radius: 9px; /* Bordas arredondadas */
+    width: auto; /* Ajusta a largura para o conteúdo */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6); /* Adiciona sombra sutil */
+    max-width: 120px; /* Define a largura máxima do popup */
+    max-height: 40px; /* Define a altura máxima do popup */
+    padding: 6px; /* Reduz o padding interno */
+    font-size: 12px; /* Ajuste o tamanho da fonte */
+    text-align: center;  /* Centraliza o texto horizontalmente */
+    display: -webkit-flex;
+    justify-content: center;  /* Centraliza o conteúdo horizontalmente */
+    align-items: center;  /* Centraliza o conteúdo verticalmente */
+}
+
+/* Remove o X de fechamento do popup */
+.leaflet-popup-close-button {
+    display: none !important;
+}
+
+/* Ajustando o "triângulo" (seta) do popup */
+.leaflet-popup-tip {
+    position: absolute;
+    right: 1000px;
+    width: 12px;
+    height: 12px;
+}
+
+/* Para telas de iPhone e outros dispositivos móveis */
+@media only screen and (max-width: 768px) {
+    #map {
+        height: calc(100vh - constant(safe-area-inset-top) - constant(safe-area-inset-bottom));
+    }
+
+    /* Ajustando os ícones */
+    .leaflet-marker-icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .waypoint-count-text {
+        font-size: 12px; /* Ajuste do tamanho da fonte */
+    }
+}
+
+/* Compatibilidade com áreas seguras em dispositivos Apple */
+@supports (height: -webkit-fill-available) {
+    #map {
+        height: -webkit-fill-available; /* Altura total da tela, incluindo área segura */
+    }
+}
