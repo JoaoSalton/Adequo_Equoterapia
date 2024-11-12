@@ -6,7 +6,7 @@ const URLS_TO_CACHE = [
     '/index.html',        // HTML
     '/styles.css',         // CSS
     '/script.js',         // Seu JavaScript principal
-    '/area.jpg',          // Imagem de mapa PNG
+    '/area.jpg',          // Imagem de mapa JPG
     '/cenoura.png',       // Ícone de waypoint
     '/cavalo-up.png',     // Ícone de cavalo para direção para cima
     '/cavalo-down.png',   // Ícone de cavalo para direção para baixo
