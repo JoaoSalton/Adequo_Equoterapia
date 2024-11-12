@@ -139,7 +139,7 @@ function addFixedWaypoints() {
                 
                 ];
 
-    const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [30, 30], iconAnchor: [25, 25] });
+    const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [40, 40], iconAnchor: [20, 20] });
 
     fixedWaypoints.forEach(waypoint => {
         const marker = L.marker([waypoint.lat, waypoint.lng], { icon: waypointIcon }).addTo(map);
