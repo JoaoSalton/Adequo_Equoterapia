@@ -182,6 +182,7 @@ function collectWaypoints(userLat, userLng) {
 function updateRemainingWaypoints() {
     if (userMarker) {
         userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
+        userMarker.openPopup();
     }
 
     if (waypoints.length > 1) {
@@ -205,8 +206,7 @@ function getUserGPS() {
         navigator.geolocation.watchPosition(function(position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
-            const direction = calculateDirection(lat, lng);
-            updateUserPosition(lat, lng, direction);  
+            updateUserPosition(lat, lng);  
             collectWaypoints(lat, lng);  
         }, function(error) {
             console.log("Erro ao obter a localização: ", error.message);
