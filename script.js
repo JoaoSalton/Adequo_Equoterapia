@@ -115,17 +115,38 @@ function tocarSomParabens() {
     somParabens.play();
 }
 
+// Variáveis para armazenar distância e número de passos
+let totalDistance = 0;
+const stepLength = 0.7; // Comprimento médio de um passo em metros
+let stepCount = 0;
+
+// Função para atualizar a posição do usuário e calcular a distância
 function updateUserPosition(lat, lng) {
-    const direction = calculateDirection(lat, lng); // Obtém a direção atual
+    const direction = calculateDirection(lat, lng);
+    
     if (userMarker) {
-        // Atualiza a posição e o ícone do marcador existente
-        userMarker.setLatLng([lat, lng]);  
-        userMarker.setIcon(userIcons[direction]); // Atualiza o ícone com a direção correta
+        userMarker.setLatLng([lat, lng]);
+        userMarker.setIcon(userIcons[direction]);
     } else {
-        // Cria o marcador se ele não existir
         userMarker = L.marker([lat, lng], { icon: userIcons[direction] }).addTo(map);
-        userMarker.bindPopup(`Cenouras Restantes: ${waypoints.length}`).openPopup();
     }
+
+    // Calcula a distância percorrida desde a última posição
+    if (lastPosition) {
+        const previousPosition = L.latLng(lastPosition.lat, lastPosition.lng);
+        const currentPosition = L.latLng(lat, lng);
+        const distance = previousPosition.distanceTo(currentPosition); // Distância em metros
+        totalDistance += distance; // Soma à distância total
+        stepCount = Math.floor(totalDistance / stepLength); // Calcula o número de passos
+    }
+    
+    // Atualiza a última posição para a próxima comparação
+    lastPosition = { lat, lng };
+
+    // Exibe a distância, número de passos e cenouras restantes no popup
+    userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
+    userMarker.openPopup();
+
 
     // Aplica o zoom apenas na primeira vez
     if (!zoomInicialAplicado) {
