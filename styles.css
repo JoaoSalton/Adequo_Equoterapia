@@ -37,7 +37,7 @@ html, body {
 /* Estilos personalizados para o popup */
 .leaflet-popup-content-wrapper {
     position: relative;
-    top: -20px; /* Ajuste a distância do topo conforme necessário */
+    top: -28px; /* Ajuste a distância do topo conforme necessário */
     left: 50%;
     transform: translateX(-50%);
     font-size: 10px; /* Tamanho da fonte menor */
@@ -47,7 +47,7 @@ html, body {
     width: auto; /* Ajusta a largura para o conteúdo */
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6); /* Adiciona sombra sutil */
     max-width: 300px; /* Define a largura máxima do popup */
-    max-height: 200px; /* Define a altura máxima do popup */
+    max-height: 105px; /* Define a altura máxima do popup */
     padding: 6px; /* Reduz o padding interno */
     font-size: 12px; /* Ajuste o tamanho da fonte */
     text-align: center;  /* Centraliza o texto horizontalmente */
