@@ -36,7 +36,7 @@ html, body {
 
 /* Estilos personalizados para o popup */
 .leaflet-popup-content-wrapper {
-    position: relative;
+    position:relative;
     top: -28px; /* Ajuste a distância do topo conforme necessário */
     left: 50%;
     transform: translateX(-50%);
