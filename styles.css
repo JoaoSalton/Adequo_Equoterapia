@@ -46,8 +46,8 @@ html, body {
     border-radius: 9px; /* Bordas arredondadas */
     width: auto; /* Ajusta a largura para o conteúdo */
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6); /* Adiciona sombra sutil */
-    max-width: 120px; /* Define a largura máxima do popup */
-    max-height: 40px; /* Define a altura máxima do popup */
+    max-width: 300px; /* Define a largura máxima do popup */
+    max-height: 200px; /* Define a altura máxima do popup */
     padding: 6px; /* Reduz o padding interno */
     font-size: 12px; /* Ajuste o tamanho da fonte */
     text-align: center;  /* Centraliza o texto horizontalmente */
