@@ -130,8 +130,7 @@ function updateUserPosition(lat, lng) {
     } else {
         userMarker = L.marker([lat, lng], { icon: userIcons[direction] }).addTo(map);
     }
-
-    // Calcula a distância percorrida desde a última posição
+// Calcula a distância percorrida desde a última posição
     if (lastPosition) {
         const previousPosition = L.latLng(lastPosition.lat, lastPosition.lng);
         const currentPosition = L.latLng(lat, lng);
@@ -143,20 +142,17 @@ function updateUserPosition(lat, lng) {
     // Atualiza a última posição para a próxima comparação
     lastPosition = { lat, lng };
 
-    // Exibe a distância, número de passos e cenouras restantes no popup
-    userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
-    userMarker.openPopup();
-
-
-    // Aplica o zoom apenas na primeira vez
+    // Centraliza no usuário na primeira vez
     if (!zoomInicialAplicado) {
         map.setView([lat, lng], 18);
         zoomInicialAplicado = true;
     }
 
-    // Função para coletar waypoints
     collectWaypoints(lat, lng);
 }
+ // Exibe a distância, número de passos e cenouras restantes no popup
+    userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
+    userMarker.openPopup();
 
 // Função para adicionar waypoints fixos ao mapa
 function addFixedWaypoints() {
@@ -180,7 +176,7 @@ function addFixedWaypoints() {
     updateRemainingWaypoints(); // Atualiza o contador de waypoints restantes
 }
 
-// Chame `addFixedWaypoints` para adicionar waypoints fixos
+// Chame addFixedWaypoints para adicionar waypoints fixos
 addFixedWaypoints();
 
 // Função para coletar waypoints próximos e narrar
@@ -208,11 +204,10 @@ function collectWaypoints(userLat, userLng) {
     }
 }
 
-// Função para verificar e narrar a quantidade de waypoints restantes
+// Função para atualizar a quantidade de cenouras e narrar as informações
 function updateRemainingWaypoints() {
-    // Atualiza o conteúdo do popup do marcador do usuário
     if (userMarker) {
-        userMarker.setPopupContent(`Cenouras restantes: ${waypoints.length}`);
+        userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
     }
 
     if (waypoints.length > 1) {
@@ -220,11 +215,10 @@ function updateRemainingWaypoints() {
     } else if (waypoints.length === 1) {
         narrar("Resta Apenas Uma Cenoura.");
     } else {
-        narrar("Parabéns Você Completou o Circuito e seu Cavalo Está Alimentado!");
-        tocarSomParabens(); // Toca som de parabéns ao coletar todos os waypoints
+        narrar("Parabéns! Você completou o circuito e seu cavalo está alimentado!");
+        tocarSomParabens();
     }
 }
-
 // Função para sintetizar fala
 function narrar(mensagem) {
     const sintese = new SpeechSynthesisUtterance(mensagem);
