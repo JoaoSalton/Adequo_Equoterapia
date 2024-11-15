@@ -231,6 +231,7 @@ function narrar(mensagem) {
     const sintese = new SpeechSynthesisUtterance(mensagem);
     sintese.lang = 'pt-BR'; // Define a língua para português brasileiro
     window.speechSynthesis.speak(sintese);
+}
 
 // Função para verificar e narrar a quantidade de waypoints restantes
 function updateRemainingWaypoints() {
