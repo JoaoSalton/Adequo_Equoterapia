@@ -226,13 +226,19 @@ function collectWaypoints(userLat, userLng) {
     }
 }
 
+// Função para sintetizar fala
+function narrar(mensagem) {
+    const sintese = new SpeechSynthesisUtterance(mensagem);
+    sintese.lang = 'pt-BR'; // Define a língua para português brasileiro
+    window.speechSynthesis.speak(sintese);
+
 // Função para verificar e narrar a quantidade de waypoints restantes
 function updateRemainingWaypoints() {
     const remaining = waypoints.length;
     if (remaining > 0) {
-        alert(`Restam ${remaining} cenouras para coletar!`);
+        narrar(`Restam ${remaining} cenouras para coletar!`);
     } else {
-        alert('Você coletou todas as cenouras!');
+        narrar('Parabéns! Você coletou todas as cenouras!');
     }
 }
 
