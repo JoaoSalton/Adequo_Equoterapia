@@ -140,7 +140,7 @@ function updateUserPosition(lat, lng, direction) {
     } else {
         // Cria o marcador se ele não existir
         userMarker = L.marker([lat, lng], { icon: userIcons[direction] }).addTo(map);
-        userMarker.bindPopup(`Buds Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`).openPopup();
+        userMarker.bindPopup(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`).openPopup();
     }
 
     // Aplica o zoom apenas na primeira vez
