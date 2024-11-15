@@ -7,6 +7,7 @@ if ('serviceWorker' in navigator) {
       console.error('Falha ao registrar Service Worker:', error);
     });
 }
+
 // Cria o botão
 const startButton = document.createElement("button");
 startButton.textContent = "Começar!";
@@ -19,48 +20,34 @@ startButton.style.fontSize = "16px";
 startButton.style.cursor = "pointer";
 startButton.style.backgroundColor = "lightblue";
 startButton.style.borderRadius = "15px";
-startButton.style.zIndex = 1000; // Garante que o botão apareça acima de outros elementos
+startButton.style.zIndex = 1000;
 
 // Adiciona o botão ao corpo da página
 document.body.appendChild(startButton);
 
-// Função para iniciar os áudios e remover o botão
 function iniciarJogo() {
     somPassos.play(); // Toca o som para desbloquear o áudio
     document.body.removeChild(startButton); // Remove o botão após o clique
-
-    // Agora, chama a função para começar o jogo
     getUserGPS();
 }
 
-// Adiciona um evento de clique ao botão
 startButton.addEventListener("click", iniciarJogo);
-// Variável para controlar se o zoom inicial foi aplicado
-let zoomInicialAplicado = false;
-// Inicializa o mapa sem centralizá-lo inicialmente
-const map = L.map('map');
-// URL da imagem PNG
-const imageUrl = 'area.jpg'; // Substitua pelo caminho correto da sua imagem PNG
 
-// Define os limites da imagem usando suas coordenadas
+let zoomInicialAplicado = false;
+const map = L.map('map');
+const imageUrl = 'area.jpg'; 
+
 const southWest = L.latLng(-26.9794210561550436, -48.7531625172409093);
 const northEast = L.latLng(-26.9763356004990413, -48.7497037682969037);
-
-// Adiciona a imagem como uma sobreposição no mapa
 L.imageOverlay(imageUrl, [southWest, northEast]).addTo(map);
-
-// Ajusta a vista do mapa para incluir a imagem
 map.fitBounds([southWest, northEast]);
 
-
-// Adiciona o tile layer do OpenStreetMap com zoom mínimo e máximo
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; OpenStreetMap contributors',
     minZoom: 10,
     maxZoom: 21
 }).addTo(map);
 
-// Define os ícones de cavalo para cada direção
 const userIcons = {
     up: L.icon({ iconUrl: 'cavalo-up.png', iconSize: [15, 50], iconAnchor: [7 , 25] }),
     down: L.icon({ iconUrl: 'cavalo-down.png', iconSize: [15, 50], iconAnchor: [7 , 25] }),
@@ -68,24 +55,13 @@ const userIcons = {
     right: L.icon({ iconUrl: 'cavalo-right.png', iconSize: [50, 15], iconAnchor: [25 ,7] })
 };
 
-
-// Variável para armazenar o marcador do usuário
 let userMarker;
-
-// Array para armazenar os waypoints
 let waypoints = [];
-
-// Som de passos
 const somPassos = new Audio('horse.mp3');
 let tocandoPassos = false;
-
-// Som de waypoint
 const somWaypoint = new Audio('cenoura.mp3');
+const somParabens = new Audio('corneta.mp3');
 
-// Som de parabéns
-const somParabens = new Audio('corneta.mp3'); // Substitua pelo caminho correto do som de parabéns
-
-// Função para tocar o som de passos
 function tocarSomPassos() {
     if (!tocandoPassos) {
         tocandoPassos = true;
@@ -94,7 +70,6 @@ function tocarSomPassos() {
     }
 }
 
-// Função para parar o som de passos
 function pararSomPassos() {
     if (!somPassos.paused) {
         somPassos.pause();
@@ -103,24 +78,36 @@ function pararSomPassos() {
     }
 }
 
-// Função para tocar o som do waypoint
 function tocarSomWaypoint() {
     pararSomPassos();
     somWaypoint.play();
     somWaypoint.onended = function() { tocarSomPassos(); };
 }
 
-// Função para tocar o som de parabéns
 function tocarSomParabens() {
     somParabens.play();
 }
 
-// Variáveis para armazenar distância e número de passos
+// Variáveis para distância e passos
 let totalDistance = 0;
 const stepLength = 0.7; // Comprimento médio de um passo em metros
 let stepCount = 0;
+let lastPosition = null;
 
-// Função para atualizar a posição do usuário e calcular a distância
+function calculateDirection(lat, lng) {
+    if (lastPosition) {
+        const deltaLat = lat - lastPosition.lat;
+        const deltaLng = lng - lastPosition.lng;
+        if (Math.abs(deltaLat) > Math.abs(deltaLng)) {
+            return deltaLat > 0 ? 'up' : 'down';
+        } else {
+            return deltaLng > 0 ? 'right' : 'left';
+        }
+    }
+    lastPosition = { lat, lng };
+    return 'right';
+}
+
 function updateUserPosition(lat, lng) {
     const direction = calculateDirection(lat, lng);
     
@@ -130,19 +117,19 @@ function updateUserPosition(lat, lng) {
     } else {
         userMarker = L.marker([lat, lng], { icon: userIcons[direction] }).addTo(map);
     }
-// Calcula a distância percorrida desde a última posição
+
     if (lastPosition) {
         const previousPosition = L.latLng(lastPosition.lat, lastPosition.lng);
         const currentPosition = L.latLng(lat, lng);
-        const distance = previousPosition.distanceTo(currentPosition); // Distância em metros
-        totalDistance += distance; // Soma à distância total
-        stepCount = Math.floor(totalDistance / stepLength); // Calcula o número de passos
+        const distance = previousPosition.distanceTo(currentPosition);
+        totalDistance += distance;
+        stepCount = Math.floor(totalDistance / stepLength);
     }
-    
-    // Atualiza a última posição para a próxima comparação
     lastPosition = { lat, lng };
 
-    // Centraliza no usuário na primeira vez
+    userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
+    userMarker.openPopup();
+
     if (!zoomInicialAplicado) {
         map.setView([lat, lng], 18);
         zoomInicialAplicado = true;
@@ -150,61 +137,48 @@ function updateUserPosition(lat, lng) {
 
     collectWaypoints(lat, lng);
 }
- // Exibe a distância, número de passos e cenouras restantes no popup
-    userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
-    userMarker.openPopup();
 
-// Função para adicionar waypoints fixos ao mapa
 function addFixedWaypoints() {
-        const fixedWaypoints = [
-                { lat: -26.97799054, lng: -48.75139948},
-                { lat: -26.97773616, lng: -48.75139492 },
-                { lat: -26.97769345, lng: -48.75194658},
-                { lat: -26.97699894, lng: -48.75219567 },
-                { lat: -26.97686129, lng: -48.75112458 }  
-                
-                ];
+    const fixedWaypoints = [
+        { lat: -26.97799054, lng: -48.75139948 },
+        { lat: -26.97773616, lng: -48.75139492 },
+        { lat: -26.97769345, lng: -48.75194658 },
+        { lat: -26.97699894, lng: -48.75219567 },
+        { lat: -26.97686129, lng: -48.75112458 }
+    ];
 
     const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [40, 40], iconAnchor: [20, 20] });
-
     fixedWaypoints.forEach(waypoint => {
         const marker = L.marker([waypoint.lat, waypoint.lng], { icon: waypointIcon }).addTo(map);
         waypoint.marker = marker;
         waypoints.push(waypoint);
     });
-
-    updateRemainingWaypoints(); // Atualiza o contador de waypoints restantes
+    updateRemainingWaypoints();
 }
-
-// Chame addFixedWaypoints para adicionar waypoints fixos
 addFixedWaypoints();
 
-// Função para coletar waypoints próximos e narrar
 function collectWaypoints(userLat, userLng) {
     let waypointCaptured = false;
 
     waypoints = waypoints.filter(waypoint => {
         const waypointPosition = L.latLng(waypoint.lat, waypoint.lng);
         const userPosition = L.latLng(userLat, userLng);
+        const distance = userPosition.distanceTo(waypointPosition);
 
-        const distance = userPosition.distanceTo(waypointPosition); // Distância em metros
-
-        if (distance < 10) {  // Proximidade para capturar waypoint
+        if (distance < 10) {  
             waypoint.marker.remove();
             tocarSomWaypoint();
             waypointCaptured = true;
-            return false; // Remove o waypoint da lista
+            return false;
         }
-        return true; // Mantém o waypoint na lista
+        return true;
     });
 
-    // Atualiza o contador se algum waypoint foi capturado
     if (waypointCaptured) {
         updateRemainingWaypoints();
     }
 }
 
-// Função para atualizar a quantidade de cenouras e narrar as informações
 function updateRemainingWaypoints() {
     if (userMarker) {
         userMarker.setPopupContent(`Cenouras Restantes: ${waypoints.length}<br>Distância Percorrida: ${totalDistance.toFixed(2)} m<br>Passos: ${stepCount}`);
@@ -219,21 +193,18 @@ function updateRemainingWaypoints() {
         tocarSomParabens();
     }
 }
-// Função para sintetizar fala
+
 function narrar(mensagem) {
     const sintese = new SpeechSynthesisUtterance(mensagem);
-    sintese.lang = 'pt-BR'; // Define a língua para português brasileiro
+    sintese.lang = 'pt-BR';
     window.speechSynthesis.speak(sintese);
 }
 
-// Função para obter a posição GPS do usuário
 function getUserGPS() {
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
-
-            // Atualiza a posição do usuário com base na direção do movimento
             const direction = calculateDirection(lat, lng);
             updateUserPosition(lat, lng, direction);  
             collectWaypoints(lat, lng);  
@@ -249,23 +220,4 @@ function getUserGPS() {
     }
 }
 
-// Função para calcular a direção do movimento com base na posição anterior
-let lastPosition = null;
-function calculateDirection(lat, lng) {
-    if (lastPosition) {
-        const deltaLat = lat - lastPosition.lat;
-        const deltaLng = lng - lastPosition.lng;
-
-        // Determina a direção com base nos deslocamentos
-        if (Math.abs(deltaLat) > Math.abs(deltaLng)) {
-            return deltaLat > 0 ? 'up' : 'down';  // Norte ou Sul
-        } else {
-            return deltaLng > 0 ? 'right' : 'left';  // Leste ou Oeste
-        }
-    }
-    lastPosition = { lat, lng }; // Armazena a posição atual como última posição
-    return 'right'; // Direção padrão inicial
-}
-
-// Chama a função para obter a localização GPS em tempo real
 getUserGPS();
