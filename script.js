@@ -151,16 +151,15 @@ function addFixedWaypoints() {
                 { lat: -26.97686129, lng: -48.75112458 }  
                 
                 ];
-
-    const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [40, 40], iconAnchor: [20, 20] });
-
-    fixedWaypoints.forEach(waypoint => {
-        const marker = L.marker([waypoint.lat, waypoint.lng], { icon: waypointIcon }).addTo(map);
-        waypoint.marker = marker;
-        waypoints.push(waypoint);
+  
+const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [40, 40], iconAnchor: [20, 20] });
+fixedWaypoints.forEach(waypoint => {
+const marker = L.marker([waypoint.lat, waypoint.lng], { icon: waypointIcon }).addTo(map);
+waypoint.marker = marker;
+waypoints.push(waypoint);
     });
 
-    updateRemainingWaypoints(); // Atualiza o contador de waypoints restantes
+updateRemainingWaypoints(); // Atualiza o contador de waypoints restantes
 }
 
 // Chame addFixedWaypoints para adicionar waypoints fixos
@@ -252,8 +251,8 @@ function calculateDirection(lat, lng) {
             return deltaLng > 0 ? 'right' : 'left';  // Leste ou Oeste
         }
     }
-    lastPosition = { lat, lng }; // Armazena a posição atual como última posição
-    return 'right'; // Direção padrão inicial
+         lastPosition = { lat, lng }; // Armazena a posição atual como última posição
+         return 'right'; // Direção padrão inicial
 }
 
 // Chama a função para obter a localização GPS em tempo real
