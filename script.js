@@ -62,10 +62,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Define os ícones de cavalo para cada direção
 const userIcons = {
-    up: L.icon({ iconUrl: 'cavalo.png', iconSize: [100, 50], iconAnchor: [50, 0] }),
-    down: L.icon({ iconUrl: 'cavalo.png', iconSize: [100, 50], iconAnchor: [50, 0] }),
-    left: L.icon({ iconUrl: 'cavalo.png', iconSize: [100, 50], iconAnchor: [50, 0] }),
-    right: L.icon({ iconUrl: 'cavalo.png', iconSize: [100, 50], iconAnchor: [50, 0] })
+    up: L.icon({ iconUrl: 'cavalo.png', iconSize: [200, 100], iconAnchor: [100, 0] }),
+    down: L.icon({ iconUrl: 'cavalo.png', iconSize: [200, 100], iconAnchor: [100, 0] }),
+    left: L.icon({ iconUrl: 'cavalo.png', iconSize: [200, 100], iconAnchor: [100, 0] }),
+    right: L.icon({ iconUrl: 'cavalo.png', iconSize: [200, 100], iconAnchor: [100, 0] })
 };
 
 // Variável para armazenar o marcador do usuário
@@ -86,7 +86,7 @@ const somParabens = new Audio('corneta.mp3');
 
 // Variáveis para armazenar distância e número de passos
 let totalDistance = 0;
-const stepLength = 0.7; // Comprimento médio de um passo em metros
+const stepLength = 2.8; // Comprimento médio de um passo em metros
 let stepCount = 0;
 let lastPosition = null;
 
@@ -161,12 +161,10 @@ function addFixedWaypoints() {
         { lat: -26.97773616, lng: -48.75139492 },
         { lat: -26.97769345, lng: -48.75194658},
         { lat: -26.97699894, lng: -48.75219567 },
-        { lat: -26.97686129, lng: -48.75112458 },
-        {lat: -27.134383093076142, lng: -48.59819736964952},
-        {lat: -27.134631905473544, lng: -48.59855073239151}
+        { lat: -26.97686129, lng: -48.75112458 }
     ];
 
-    const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [40, 40], iconAnchor: [20, 20] });
+    const waypointIcon = L.icon({ iconUrl: 'cenoura.png', iconSize: [35, 35], iconAnchor: [17, 17] });
 
     fixedWaypoints.forEach(waypoint => {
         const marker = L.marker([waypoint.lat, waypoint.lng], { icon: waypointIcon }).addTo(map);
@@ -194,7 +192,7 @@ function collectWaypoints(userLat, userLng) {
 
         const distance = userPosition.distanceTo(waypointPosition); // Distância em metros
 
-        if (distance < 16) {  // Se a distância for menor que 16 metros, o waypoint é capturado
+        if (distance < 6) {  // Se a distância for menor que 16 metros, o waypoint é capturado
             waypoint.marker.remove(); // Remove o marcador do waypoint
             tocarSomWaypoint(); // Toca o som de captura do waypoint
             waypointCaptured = true;  // Marca que um waypoint foi capturado
