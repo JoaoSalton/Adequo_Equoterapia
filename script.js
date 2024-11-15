@@ -7,6 +7,15 @@ navigator.serviceWorker.register('service-worker.js')
     console.error('Falha ao registrar o Service Worker:', error);
   });
 
+alert("🎉 Olá, pequeno explorador! Bem-vindo ao Circuito Adequo de Equoterapia Interativo! 🐴🥕\n\n" +
+    "Aqui estão as instruções para você começar a brincadeira:\n\n" +
+    "1. O seu cavalo está faminto e precisa comer muitas cenouras! 🐴🍽️\n" +
+    "2. Você precisa guiar o cavalo pelo mapa e ir até as 'cenouras' (são os ícones de cenoura no mapa) 🥕\n" +
+    "3. Para fazer o cavalo comer, basta chegar bem pertinho da cenoura, a menos de 8 metros! 🚶‍♂️🐴\n" +
+    "4. A cada cenoura que o cavalo comer, ele ficará mais feliz e a contagem de 'cenouras restantes' vai diminuir! 🎉\n" +
+    "5. Seu objetivo é fazer o cavalo comer todas as cenouras e se divertir muito na aventura! 🌟\n\n" +
+    "Vamos lá, cavaleiro! Prepare-se para guiar seu cavalo e fazer ele comer todas as cenouras! 🏇\n" +
+    "Está pronto para começar a brincadeira? Vamos lá! 🎮");
 // Cria o botão
 const startButton = document.createElement("button");
 startButton.textContent = "Começar!";
@@ -26,6 +35,16 @@ document.body.appendChild(startButton);
 
 // Função para iniciar os áudios e remover o botão
 function iniciarJogo() {
+    alert("🎉 Olá, pequeno explorador! Bem-vindo ao jogo do Cavalo e as Cenouras! 🐴🥕\n\n" +
+          "Aqui estão as instruções para você começar a brincadeira:\n\n" +
+          "1. O seu cavalo está faminto e precisa comer muitas cenouras! 🐴🍽️\n" +
+          "2. Você precisa guiar o cavalo pelo mapa e ir até as 'cenouras' (são os ícones de cenoura no mapa) 🥕\n" +
+          "3. Para fazer o cavalo comer, basta chegar bem pertinho da cenoura, a menos de 8 metros! 🚶‍♂️🐴\n" +
+          "4. A cada cenoura que o cavalo comer, ele ficará mais feliz e a contagem de 'cenouras restantes' vai diminuir! 🎉\n" +
+          "5. Seu objetivo é fazer o cavalo comer todas as cenouras e se divertir muito na aventura! 🌟\n\n" +
+          "Vamos lá, cavaleiro! Prepare-se para guiar seu cavalo e fazer ele comer todas as cenouras! 🏇\n" +
+          "Está pronto para começar a brincadeira? Vamos lá! 🎮");
+
     somPassos.play(); // Toca o som para desbloquear o áudio
     document.body.removeChild(startButton); // Remove o botão após o clique
     getUserGPS(); // Chama a função para começar a obter o GPS
