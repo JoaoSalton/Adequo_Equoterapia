@@ -28,7 +28,7 @@ startButton.style.fontSize = "16px";
 startButton.style.cursor = "pointer";
 startButton.style.backgroundColor = "lightblue";
 startButton.style.borderRadius = "15px";
-startButton.style.zIndex = 1000; // Garante que o botão apareça acima de outros elementos
+startButton.style.zIndex = 1000; 
 
 // Adiciona o botão ao corpo da página
 document.body.appendChild(startButton);
@@ -51,7 +51,7 @@ let zoomInicialAplicado = false;
 const map = L.map('map');
 
 // URL da imagem PNG
-const imageUrl = 'area.jpg'; // Substitua pelo caminho correto da sua imagem PNG
+const imageUrl = 'area.jpg';
 
 // Define os limites da imagem usando suas coordenadas
 const southWest = L.latLng(-26.9794210561550436, -48.7531625172409093);
